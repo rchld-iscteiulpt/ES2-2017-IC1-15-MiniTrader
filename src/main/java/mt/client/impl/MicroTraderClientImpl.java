@@ -12,6 +12,7 @@ import mt.comm.impl.ClientCommImpl;
 public class MicroTraderClientImpl implements MicroTraderClient {
 	
 	public int var;
+	public double var1;
 	
 	public static void main(String args[]) {
 		ClientComm clientComm = new ClientCommImpl();
