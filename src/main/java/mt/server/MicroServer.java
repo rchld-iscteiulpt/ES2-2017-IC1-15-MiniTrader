@@ -367,7 +367,7 @@ public class MicroServer implements MicroTraderServer {
 			}
 		}
 	}
-	/*NEW CONDITION*/
+	/*NEW CONDITION gg*/
 	private void checkOrderUnits(Order o) throws ServerException {
 				if (o.getNumberOfUnits() < 10) {
 					throw new ServerException("Order tem que ter no minimo 10 unidades");
