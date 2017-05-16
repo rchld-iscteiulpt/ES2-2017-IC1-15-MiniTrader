@@ -103,6 +103,7 @@ public class MicroServer implements MicroTraderServer {
 						if(msg.getOrder().getServerOrderID() == EMPTY){
 							msg.getOrder().setServerOrderID(id++);
 						}
+						CheckMinimalOrderUnits(msg.getOrder());
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
 					} catch (ServerException e) {
@@ -365,5 +366,11 @@ public class MicroServer implements MicroTraderServer {
 			}
 		}
 	}
+	
+	private void CheckMinimalOrderUnits(Order a) throws ServerException {
+					if (a.getNumberOfUnits() < 10) {
+		 					throw new ServerException("Order tem que ter no minimo 10 unidades");
+		 				}
+		 			}
 
 }
