@@ -20,7 +20,7 @@ import mt.comm.impl.ServerCommImpl;
 import mt.exception.ServerException;
 import mt.filter.AnalyticsFilter;
 
-/**
+/*
  * MicroTraderServer implementation. This class should be responsible
  * to do the business logic of stock transactions between buyers and sellers.
  * 
@@ -74,7 +74,7 @@ public class MicroServer implements MicroTraderServer {
 		serverComm.start();
 		
 		LOGGER.log(Level.INFO, "Starting Server...");
-
+		
 		this.serverComm = serverComm;
 
 		ServerSideMessage msg = null;
@@ -85,7 +85,8 @@ public class MicroServer implements MicroTraderServer {
 				serverComm.sendError(null, "Type was not recognized");
 				continue;
 			}
-
+			
+			
 			switch (type) {
 				case CONNECTED:
 					try{
@@ -103,6 +104,7 @@ public class MicroServer implements MicroTraderServer {
 						if(msg.getOrder().getServerOrderID() == EMPTY){
 							msg.getOrder().setServerOrderID(id++);
 						}
+						checkOrderUnits(msg.getOrder());
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
 					} catch (ServerException e) {
@@ -365,5 +367,10 @@ public class MicroServer implements MicroTraderServer {
 			}
 		}
 	}
+	private void checkOrderUnits(Order o) throws ServerException {
+				if (o.getNumberOfUnits() < 10) {
+					throw new ServerException("Order tem que ter no minimo 10 unidades");
+				}
+			}
 
 }
