@@ -64,5 +64,4 @@ public class MicroTraderClientImpl implements MicroTraderClient {
 			object.wait();
 		}
 	}
-
 }
