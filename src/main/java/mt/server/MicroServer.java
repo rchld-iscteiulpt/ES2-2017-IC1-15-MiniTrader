@@ -105,6 +105,7 @@ public class MicroServer implements MicroTraderServer {
 							msg.getOrder().setServerOrderID(id++);
 						}
 						CheckMinimalOrderUnits(msg.getOrder());
+						verifyNoEqualUser(msg);
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
 					} catch (ServerException e) {
@@ -386,4 +387,15 @@ public class MicroServer implements MicroTraderServer {
 			throw new ServerException("Limite de vendas foi ultrapassado(MAX 5)");
 		}
 	}
+	public void verifyNoEqualUser(ServerSideMessage msg) throws ServerException{
+			Order newOrder = msg.getOrder();
+			for (Entry<String, Set<Order>> entry : orderMap.entrySet()) {
+				for (Order o : entry.getValue()) {
+						if(newOrder.getNickname().equals(o.getNickname()) && 
+								newOrder.getStock().equals(o.getStock())){
+							throw new ServerException("Cannot post order to buy/sell from same user.");
+						}
+					}
+				}
+			}
 }
