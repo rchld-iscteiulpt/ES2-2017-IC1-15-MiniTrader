@@ -387,13 +387,13 @@ public class MicroServer implements MicroTraderServer {
 			throw new ServerException("Limite de vendas foi ultrapassado(MAX 5)");
 		}
 	}
-	public void verifyNoEqualUser(ServerSideMessage msg) throws ServerException{
-			Order newOrder = msg.getOrder();
-			for (Entry<String, Set<Order>> entry : orderMap.entrySet()) {
-				for (Order o : entry.getValue()) {
+	public void verifyNoEqualUser(ServerSideMessage m) throws ServerException{
+			Order newOrder = m.getOrder();
+			for (Entry<String, Set<Order>> e : orderMap.entrySet()) {
+				for (Order o : e.getValue()) {
 						if(newOrder.getNickname().equals(o.getNickname()) && 
 								newOrder.getStock().equals(o.getStock())){
-							throw new ServerException("Cannot post order to buy/sell from same user.");
+							throw new ServerException("Não podes comprar nem vender as tuas próprias orders");
 						}
 					}
 				}
