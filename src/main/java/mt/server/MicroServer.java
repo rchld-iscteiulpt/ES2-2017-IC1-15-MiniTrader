@@ -100,6 +100,7 @@ public class MicroServer implements MicroTraderServer {
 				case NEW_ORDER:
 					try {
 						verifyUserConnected(msg);
+						checkSellOrdersLimit(msg.getOrder());
 						if(msg.getOrder().getServerOrderID() == EMPTY){
 							msg.getOrder().setServerOrderID(id++);
 						}
@@ -372,5 +373,17 @@ public class MicroServer implements MicroTraderServer {
 		 					throw new ServerException("Order tem que ter no minimo 10 unidades");
 		 				}
 		 			}
-
+	private void checkSellOrdersLimit(Order o) throws ServerException {
+		int c = 0;
+		Set<Order> orders = orderMap.get(o.getNickname());
+		
+		for(Order obj: orders){
+			if(obj.isSellOrder()){
+				c++;
+			}
+		}
+		if(c == 5){
+			throw new ServerException("Limite de vendas foi ultrapassado(MAX 5)");
+		}
+	}
 }
