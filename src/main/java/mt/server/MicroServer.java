@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import mt.Order;
 import mt.comm.ServerComm;
 import mt.comm.ServerSideMessage;
@@ -105,13 +107,6 @@ public class MicroServer implements MicroTraderServer {
 					
 					if(msg.getOrder().getServerOrderID() == EMPTY && msg.getOrder().getNumberOfUnits() >= 10){
 						System.out.println("1");
-					
-						if(msg.getOrder().isSellOrder() && checkSellOrdersLimit(msg.getOrder()) < 5){
-							System.out.println("2");
-							msg.getOrder().setServerOrderID(id++);
-							notifyAllClients(msg.getOrder());
-							processNewOrder(msg);
-						}
 						
 						if(msg.getOrder().isBuyOrder()){
 							System.out.println("3");
@@ -120,7 +115,21 @@ public class MicroServer implements MicroTraderServer {
 							processNewOrder(msg);
 						}
 						
+						if(msg.getOrder().isSellOrder() && checkSellOrdersLimit(msg.getOrder()) < 5){
+							System.out.println("2");
+							msg.getOrder().setServerOrderID(id++);
+							notifyAllClients(msg.getOrder());
+							processNewOrder(msg);
+						}/*else{
+							JOptionPane.showMessageDialog(null, "No more than 5 sell Orders!");
+						}*/
+						
+						
+						
+					}else{
+						JOptionPane.showMessageDialog(null, "Valor minimo de 10 Orders");
 					}
+					
 					System.out.println("4");
 					/*CheckMinimalOrderUnits(msg.getOrder());*/
 
