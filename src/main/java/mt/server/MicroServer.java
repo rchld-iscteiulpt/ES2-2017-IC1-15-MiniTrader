@@ -101,11 +101,11 @@ public class MicroServer implements MicroTraderServer {
 				case NEW_ORDER:
 					try {
 						verifyUserConnected(msg);
-						checkSellOrdersLimit(msg.getOrder());
+						
 						if(msg.getOrder().getServerOrderID() == EMPTY){
 							msg.getOrder().setServerOrderID(id++);
 						}
-						CheckMinimalOrderUnits(msg.getOrder());
+						
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
 					} catch (ServerException e) {
@@ -368,6 +368,7 @@ public class MicroServer implements MicroTraderServer {
 			}
 		}
 	}
+	
 	/*NEW CONDITION*/
 	private void CheckMinimalOrderUnits(Order a) throws ServerException {
 				if (a.getNumberOfUnits() < 10) {
