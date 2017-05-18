@@ -102,12 +102,25 @@ public class MicroServer implements MicroTraderServer {
 					try {
 						verifyUserConnected(msg);
 						
-						if(msg.getOrder().getServerOrderID() == EMPTY){
-							msg.getOrder().setServerOrderID(id++);
-						}
+						if(msg.getOrder().getServerOrderID() == EMPTY && msg.getOrder().getNumberOfUnits() >= 10){
+							System.out.println("1");
 						
-						notifyAllClients(msg.getOrder());
-						processNewOrder(msg);
+							if(msg.getOrder().isSellOrder() && checkSellOrdersLimit(msg.getOrder()) < 5){
+								System.out.println("2");
+								msg.getOrder().setServerOrderID(id++);
+								notifyAllClients(msg.getOrder());
+								processNewOrder(msg);
+							}
+							
+							if(msg.getOrder().isBuyOrder()){
+								System.out.println("3");
+								msg.getOrder().setServerOrderID(id++);
+								notifyAllClients(msg.getOrder());
+								processNewOrder(msg);
+							}
+							
+						}
+						System.out.println("4");
 					} catch (ServerException e) {
 						serverComm.sendError(msg.getSenderNickname(), e.getMessage());
 					}
