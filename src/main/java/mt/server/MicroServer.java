@@ -288,7 +288,7 @@ public class MicroServer implements MicroTraderServer {
 
 		for (Entry<String, Set<Order>> entry : orderMap.entrySet()) {
 			for (Order o : entry.getValue()) {
-				if (o.isBuyOrder() && o.getStock().equals(sellOrder.getStock()) && o.getPricePerUnit() >= sellOrder.getPricePerUnit()) {
+				if (o.isBuyOrder() && o.getStock().equals(sellOrder.getStock()) && o.getPricePerUnit() >= sellOrder.getPricePerUnit() && !o.getNickname().equals(sellOrder.getNickname())) {
 					doTransaction (o, sellOrder);
 				}
 			}
@@ -307,7 +307,7 @@ public class MicroServer implements MicroTraderServer {
 
 		for (Entry<String, Set<Order>> entry : orderMap.entrySet()) {
 			for (Order o : entry.getValue()) {
-				if (o.isSellOrder() && buyOrder.getStock().equals(o.getStock()) && o.getPricePerUnit() <= buyOrder.getPricePerUnit()) {
+				if (o.isSellOrder() && buyOrder.getStock().equals(o.getStock()) && o.getPricePerUnit() <= buyOrder.getPricePerUnit() && !o.getNickname().equals(buyOrder.getNickname())) {
 					doTransaction(buyOrder, o);
 				}
 			}
@@ -410,7 +410,8 @@ public class MicroServer implements MicroTraderServer {
 		return c;
 
 	}
-	public void verifyNoEqualUser(ServerSideMessage m) throws ServerException{
+	
+	/*public void verifyNoEqualUser(ServerSideMessage m) throws ServerException{
 		Order newOrder = m.getOrder();
 		for (Entry<String, Set<Order>> e : orderMap.entrySet()) {
 			for (Order o : e.getValue()) {
@@ -420,5 +421,5 @@ public class MicroServer implements MicroTraderServer {
 				}
 			}
 		}
-	}
+	}*/
 }
