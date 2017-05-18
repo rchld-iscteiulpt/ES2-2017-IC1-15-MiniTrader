@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -121,6 +122,8 @@ public class MicroServer implements MicroTraderServer {
 						msg.getOrder().setServerOrderID(id++);
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
+					}else{
+						JOptionPane.showMessageDialog(null, "Valor minimo de 10 por Order");
 					}
 				} catch (ServerException e) {
 					serverComm.sendError(msg.getSenderNickname(), e.getMessage());
